@@ -8,17 +8,58 @@ $(document).ready(function () {
             data: {action: "view"},
             success: function (response) {
                 $('#showUser').html(response);
-                $('table').DataTable({
-                    order: [0,'asc']
-                });
+                $('table').DataTable();
             }
         });
     }
-
+        // Insert Validation
+    function InsertValidateForm(){
+        let valid = true;
+        $('.form-control').css({'background-color': '', 'border': ''});
+        $('.invalid-feedback').html(''); 
+        if(!$('#fname').val()){
+            $('#err_fname').css('display','block');
+            $('#err_fname').html("First Name is Required!");
+            $('#fname').css({'background-color': '#FFFFDF', 'border': '1px solid red'});
+            valid = false;
+        }
+        if(!$('#fname').val().match(/[a-zA-Z]$/)){
+            $('#err_fname').css('display','block');
+            $('#err_fname').html("Please Enter Valid Name!");
+            $('#fname').css({'background-color': '#FFFFDF', 'border': '1px solid red'});
+            valid = false;
+        }
+        if(!$('#lname').val()){
+            $('#err_lname').css('diisplay','block');
+            $('#err_lname').html("Last Name is Required!");
+            $('#lname').css({'background-color': '#ffffdf','border':'1px solid red'});
+            valid = false;
+        }
+        if(!$('#email').val()){
+            $('#err_email').css('display','block');
+            $('#err_email').html('Email is Required!');
+            $('#email').css({'background-color':'#ffffdf','border':'1px solid red'});
+            valid = false;
+        }
+        if(!$('#email').val().match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)){
+            $('#err_email').css('display','block');
+            $('#err_email').html("Please Enter a Valid Email Address!");
+            $('#email').css({'background-color':'#ffffdf','border':'1px solid red'});
+            valid = false;
+        }
+        if(!$('#phone').val()){
+            $('#err_phone').css('display','block');
+            $('#err_phone').html("Please Enter Mobile Number!");
+            $('#phone').css({'background-color':'#ffffdf','border': '1px solid red'});
+            valid = false;
+        }
+        return valid;
+    }
     // Insert Ajax Request
-    $('#insert').click(function (event) {
-        if($('#form-data')[0].checkValidity()){
-            event.preventDefault();
+    $('#insert').click(function (event){
+        event.preventDefault();
+        let valid = InsertValidateForm();
+        if(valid){
             $.ajax({
                 method: "post",
                 url: "action.php",
@@ -32,7 +73,7 @@ $(document).ready(function () {
                     $('#form-data')[0].reset();
                     showAllRecord();
                 }
-            });
+            })
         }
     })
 
@@ -55,24 +96,64 @@ $(document).ready(function () {
         });
     })
 
+        // Update Validation
+        function editValidateForm(){
+            let valid = true;
+            $('.form-control').css({'background-color': '', 'border': ''});
+            $('.invalid-feedback').html('');
+            if(!$('#edit_fname').val()){
+                $('#err_edit_fname').css('display','block');
+                $('#err_edit_fname').html("First Name is Required!");
+                $('#edit_fname').css({'background-color': '#FFFFDF', 'border': '1px solid red'});
+                valid = false;
+            }
+            if(!$('#edit_lname').val()){
+                $('#err_edit_lname').css('diisplay','block');
+                $('#err_edit_lname').html("Last Name is Required!");
+                $('#edit_lname').css({'background-color': '#ffffdf','border':'1px solid red'});
+                valid = false;
+            }
+            if(!$('#edit_email').val()){
+                $('#err_edit_email').css('display','block');
+                $('#err_edit_email').html('Email is Required!');
+                $('#edit_email').css({'background-color':'#ffffdf','border':'1px solid red'});
+                valid = false;
+            }
+            if(!$('#edit_email').val().match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)){
+                $('#err_edit_email').css('display','block');
+                $('#err_edit_email').html("Please Enter a Valid Email Address!");
+                $('#edit_email').css({'background-color':'#ffffdf','border':'1px solid red'});
+                valid = false;
+            }
+            if(!$('#edit_phone').val()){
+                $('#err_edit_phone').css('display','block');
+                $('#err_edit_phone').html("Please Enter Mobile Number!");
+                $('#edit_phone').css({'background-color':'#ffffdf','border': '1px solid red'});
+                valid = false;
+            }
+            return valid;
+        }
     // Update Ajax Request
     $('#update').click(function (event) {
         if($('#edit-form-data')[0].checkValidity()){
             event.preventDefault();
-            $.ajax({
-                method: "post",
-                url: "action.php",
-                data: $('#edit-form-data').serialize()+"&action=update",
-                success: function (response) {
-                    Swal.fire({
-                        title: "User Updated Successfully.",
-                        icon: 'success'
-                    })
-                    $('#myEditModal').modal('hide');
-                    $('#edit-form-data')[0].reset();
-                    showAllRecord();
-                }
-            });
+            var valid = editValidateForm();
+            if(valid){
+                $.ajax({
+                    method: "post",
+                    url: "action.php",
+                    data: $('#edit-form-data').serialize()+"&action=update",
+                    success: function (response) {
+                        Swal.fire({
+                            title: "User Updated Successfully.",
+                            icon: 'success'
+                        })
+                        $('#myEditModal').modal('hide');
+                        $('#edit-form-data')[0].reset();
+                        showAllRecord();
+                    }
+                });
+            }
         }
     })
 
@@ -109,23 +190,26 @@ $(document).ready(function () {
         })
     })
 
-    // Edit Ajax Request
+    // Info Ajax Request
     $('body').on('click','.infoBtn', function(){
-        var info = $(this).attr('id');
+        var info_id = $(this).attr('id');
+        
         $.ajax({
             type: "post",
             url: "action.php",
-            data: {info: info},
+            data: {info_id: info_id},
+            dataType: "json",
             success: function (response) {
-                var data = JSON.parse(response);
+                console.log(response);
+                
                 Swal.fire({
-                    title: '<strong>User Info : ID ('+data.id+')</strong>',
                     icon: 'info',
-                    html: '<b>First Name :</b> ' +data.first_name+ '<br><b>First Name :</b> ' +data.last_name+ '<br><b>Email :</b> '+ data.email+ '<br><b>Phone :</b> ' +data.phone,
-                    // showCancelButton: true
-                })
+                    title: "User Info : ID (" +response.id+ ")",
+                    html: "<b> First Name : "+response.first_name+"</b></br><b> Last Name :"+response.last_name+"</b></br><b> Email : "+response.email+"</b></br><b> Phone : "+response.phone+"</b></br>",
+                    
+                    // showCancelButton: true,
+                });
             }
         });
     })
-
 });

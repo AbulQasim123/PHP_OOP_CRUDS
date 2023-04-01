@@ -7,7 +7,7 @@ class Database{
     public function __construct()
     {
         try {
-            $this->conn = new PDO($this->dsn,$this->user, $this->pass);
+            $this->conn = new PDO($this->dsn,$this->user, $this->pass);;
             // echo "Connection Successfull";
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -59,7 +59,6 @@ class Database{
         $total_rows = $stmt->rowCount();
         return $total_rows;
     }
-
 }
 
 ?>

@@ -51,9 +51,7 @@
         <hr class="">
         <div class="row">
             <div class="col-lg-12">
-                <div class="table-responsive" id="showUser">
-                    <h4 class="text-center text-info" style="margin-top: 150px;">Loading...</h4>
-                </div>
+                <div class="table-responsive" id="showUser"></div>
             </div>
         </div>
     </div>
@@ -73,26 +71,30 @@
                 <div class="modal-body px-4">
                     <form method="post" id="form-data">
                         <div class="form-group">
-                            <input required type="text" name="fname" id="fname" class="form-control" placeholder="First Name">
+                            <input type="text" name="fname" id="fname" class="form-control" placeholder="First Name">
+                            <div class="invalid-feedback" id="err_fname" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input required type="text" name="lname" id="lname" class="form-control" placeholder="Last Name">
+                            <input type="text" name="lname" id="lname" class="form-control" placeholder="Last Name">
+                            <div class="invalid-feedback" id="err_lname" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input required type="text" name="email" id="email" class="form-control" placeholder="Email">
+                            <input type="text" name="email" id="email" class="form-control" placeholder="Email">
+                            <div class="invalid-feedback" id="err_email" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input required type="text" name="phone" id="phone" class="form-control" placeholder="Phone">
+                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone">
+                            <div class="invalid-feedback" id="err_phone" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-success btn-sm btn-block" value="Save" id="insert">
+                            <input type="button" class="btn btn-success btn-sm btn-block" value="Save" id="insert">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- The Edit Modal -->
     <div class="modal fade" id="myEditModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -103,22 +105,26 @@
                     <h4 class="modal-title">Edit User</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                
+
                 <!-- Modal body -->
                 <div class="modal-body px-4">
                     <form method="post" id="edit-form-data">
                         <input type="hidden" id="hidden_id" name="hidden_id">
                         <div class="form-group">
-                            <input required type="text" name="fname" id="edit_fname" class="form-control" placeholder="First Name">
+                            <input type="text" name="fname" id="edit_fname" class="form-control" placeholder="First Name">
+                            <div class="invalid-feedback" id="err_edit_fname" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input required type="text" name="lname" id="edit_lname" class="form-control" placeholder="Last Name">
+                            <input type="text" name="lname" id="edit_lname" class="form-control" placeholder="Last Name">
+                            <div class="invalid-feedback" id="err_edit_lname" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input required type="text" name="email" id="edit_email" class="form-control" placeholder="Email">
+                            <input type="text" name="email" id="edit_email" class="form-control" placeholder="Email">
+                            <div class="invalid-feedback" id="err_edit_email" style="display: block;"></div>
                         </div>
                         <div class="form-group">
-                            <input required type="text" name="phone" id="edit_phone" class="form-control" placeholder="Phone">
+                            <input type="text" name="phone" id="edit_phone" class="form-control" placeholder="Phone">
+                            <div class="invalid-feedback" id="err_edit_phone" style="display: block;"></div>
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-success btn-sm btn-block" value="Update" id="update">
@@ -134,7 +140,7 @@
     <script type="text/javascript" src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.3/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script type="text/javascript" src="script.js"></script>
+    
 </body>
 </html>
